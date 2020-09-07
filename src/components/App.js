@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import MyForm from "./MyForm";
 import CustomerList from "./CustomerList";
-import Customer from "./Customer";
+
 import Loader from "./Loader";
 class App extends Component{
   state = {
@@ -10,8 +10,13 @@ class App extends Component{
     url : "http://localhost:8000/api/customers",
 
   };
-  getCustomers = () =>{
-
+  getCustomers = async () => {
+    this.setState({ loader: true });
+    const customers = await axios.get(this.state.url);
+    this.setState({ customers: customers.data, loader: false });
+  };
+  componentDidMount(){
+    this.getCustomers();
   }
     render(){
       return <div>
@@ -25,8 +30,10 @@ class App extends Component{
         <div className="ui main container">
           
             <MyForm />
-            <CustomerList />
-            <Customer />
+            <CustomerList 
+            customers={this.state.customers}
+            />
+        
         </div>
       </div>;
     }

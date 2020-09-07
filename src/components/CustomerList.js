@@ -1,6 +1,8 @@
 import React,{ Component } from "react";
+import Customer from "./Customer";
 class CustomerList extends Component{
     render(){
+      const customers = this.props.customers;
         return(
             <div className="data">
             <table className="ui celled table">
@@ -14,7 +16,16 @@ class CustomerList extends Component{
               </thead>
     
               <tbody>
-                
+              {customers.map(customer => {
+              return (
+                <Customer
+                  key={customer.id}
+                  customer={customer}
+                  onDelete={this.onDelete}
+                  onEdit={this.onEdit}
+                />
+              );
+            })}
               </tbody>
             </table>
           </div>
